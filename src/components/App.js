@@ -3,32 +3,41 @@ import "../styles/App.css";
 import { movies } from "../utils/movieList";
 
 const App = () => {
-  const [inputValue, setInputValue] = useState("");
-  const [results, setResult] = useState(null);
+    const [inputValue, setInputValue] = useState("");
+    const [results, setResult] = useState(movies);
+    const [filterResult, setFilterResult] = useState([]);
 
-  function handleClick(e) {}
+    function handleClick(e) {
+        e.preventDefault();
+        let res = results.filter((val) => val.title.toLowerCase().includes(inputValue) )
+        setFilterResult(res);
+    }
+    
+    function handleChange(e) {
+        setInputValue(e.target.value)
+    }
 
-  function handleChange(e) {}
-
-  return (
-    <div id="main">
-      <form id="form">
-        <input
-          type="text"
-          onChange={handleChange}
-          value={inputValue}
-          id="movie-input"
-        ></input>
-        <button id="button" onClick={handleClick}>
-          Search
-        </button>
-      </form>
-      <div id="result">
-        {results &&
-          results.map((movie) => <div className="movie">{movie}</div>)}
-      </div>
-    </div>
-  );
+    return (
+        <div id="main">
+            <form id="form">
+                <input
+                    type="text"
+                    onChange={handleChange}
+                    value={inputValue}
+                    id="movie-input"
+                ></input>
+                <button id="button" onClick={handleClick}>
+                    Search
+                </button>
+            </form>
+            <div id="result">
+                {filterResult &&
+                    filterResult.map((movie) => (
+                        <div key={movie.id} className="movie">{movie.title}</div>
+                    ))}
+            </div>
+        </div>
+    );
 };
 
 export default App;
